@@ -18,8 +18,8 @@ class maze:
         for i in range(self._num_cols):
             cell_col = []
             for j in range(self._num_rows):
-                x1 = self._x1 + j * self._cell_size_x
-                y1 = self._y1 + i * self._cell_size_y
+                x1 = self._x1 + i * self._cell_size_x
+                y1 = self._y1 + j * self._cell_size_y
                 x2 = x1 + self._cell_size_x
                 y2 = y1 + self._cell_size_y
                 left = True
@@ -43,11 +43,11 @@ class maze:
         if self._win is None:
             return
         self._win.redraw()
-        print("redraw")
-        time.sleep(0.05)
+        # print("redraw")
+        time.sleep(0.02)
 
     def _break_entrance_and_exit(self):
-        print("breaking entrance and exit")
+        # print("breaking entrance and exit")
         self._cells[0][0].has_top_wall = False
         self._cells[self._num_cols-1][self._num_rows-1].has_bottom_wall = False
         self._draw_cells(0,0)
@@ -55,46 +55,46 @@ class maze:
         self._animate()
 
     def _break_wall(self, i, j, direction):
-        print(f"breaking wall at {i}, {j} in direction {direction}")
+        # print(f"breaking wall at {i}, {j} in direction {direction}")
         # time.sleep(1)
-        if direction == "left" and j > 0:
+        if direction == "left" and i > 0:
             self._cells[i][j].has_left_wall = False
-            self._cells[i][j-1].has_right_wall = False
-            self._draw_cells(i,j)
-            self._draw_cells(i,j-1)
-            self._animate()
-        elif direction == "right" and j < self._num_cols - 1:
-            self._cells[i][j].has_right_wall = False
-            self._cells[i][j+1].has_left_wall = False
-            self._draw_cells(i,j)
-            self._draw_cells(i,j+1) 
-            self._animate()
-        elif direction == "top" and i > 0:
-            self._cells[i][j].has_top_wall = False
-            self._cells[i-1][j].has_bottom_wall = False
+            self._cells[i-1][j].has_right_wall = False
             self._draw_cells(i,j)
             self._draw_cells(i-1,j)
             self._animate()
-        elif direction == "down" and i < self._num_rows - 1:
-            self._cells[i][j].has_bottom_wall = False
-            self._cells[i+1][j].has_top_wall = False
+        elif direction == "right" and i < self._num_cols - 1:
+            self._cells[i][j].has_right_wall = False
+            self._cells[i+1][j].has_left_wall = False
             self._draw_cells(i,j)
-            self._draw_cells(i+1,j)
+            self._draw_cells(i+1,j) 
             self._animate()
-        print("Done breaking wall")
+        elif direction == "top" and j > 0:
+            self._cells[i][j].has_top_wall = False
+            self._cells[i][j-1].has_bottom_wall = False
+            self._draw_cells(i,j)
+            self._draw_cells(i,j-1)
+            self._animate()
+        elif direction == "down" and j < self._num_rows - 1:
+            self._cells[i][j].has_bottom_wall = False
+            self._cells[i][j+1].has_top_wall = False
+            self._draw_cells(i,j)
+            self._draw_cells(i,j+1)
+            self._animate()
+        # print("Done breaking wall")
 
     def _break_walls_r(self, i, j):
-        print(f"breaking walls at {i}, {j}")
+        # print(f"breaking walls at {i}, {j}")
         self._cells[i][j].visited = True
         while True:
             to_visit = []
-            if j > 0 and not self._cells[i][j-1].visited:
-                to_visit.append("left")
-            if j < self._num_cols - 1 and not self._cells[i][j+1].visited:
-                to_visit.append("right")
             if i > 0 and not self._cells[i-1][j].visited:
+                to_visit.append("left")
+            if i < self._num_cols - 1 and not self._cells[i+1][j].visited:
+                to_visit.append("right")
+            if j > 0 and not self._cells[i][j-1].visited:
                 to_visit.append("top")
-            if i < self._num_rows - 1 and not self._cells[i+1][j].visited:
+            if j < self._num_rows - 1 and not self._cells[i][j+1].visited:
                 to_visit.append("down")
             if len(to_visit) == 0:
                 self._cells[i][j].draw()
@@ -102,14 +102,14 @@ class maze:
             direction = random.choice(to_visit)
             if direction == "left":
                 self._break_wall(i, j, "left")
-                self._break_walls_r(i, j-1)
+                self._break_walls_r(i-1, j)
             elif direction == "right":
                 self._break_wall(i, j, "right")
-                self._break_walls_r(i, j+1)
+                self._break_walls_r(i+1, j)
             elif direction == "top":
                 self._break_wall(i, j, "top")
-                self._break_walls_r(i-1, j)
+                self._break_walls_r(i, j-1)
             elif direction == "down":
                 self._break_wall(i, j, "down")
-                self._break_walls_r(i+1, j)
+                self._break_walls_r(i, j+1)
 
