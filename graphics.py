@@ -24,3 +24,5 @@ class Window:
 
     def draw_line(self, x1, y1, x2, y2, fill_color="black", width=2):
         self.canvas.create_line(x1, y1, x2, y2, fill=fill_color, width=width)
+
+    
