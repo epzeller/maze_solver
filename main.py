@@ -17,6 +17,8 @@ def main():
     # this_maze._break_wall(0, 4, "left")
     # this_maze._break_wall(2, 2, "down")
     this_maze._break_walls_r(0, 0)
+    this_maze._reset_cells_visited()
+    this_maze.solve()
 
    
 

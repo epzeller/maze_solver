@@ -113,3 +113,13 @@ class maze:
                 self._break_wall(i, j, "down")
                 self._break_walls_r(i, j+1)
 
+    def _reset_cells_visited(self):
+        for i in range(self._num_cols):
+            for j in range(self._num_rows):
+                self._cells[i][j].visited = False
+
+    def solve(self):
+        self._solve_r(0, 0)
+
+    def _solve_r(self, i, j):
+        return False
