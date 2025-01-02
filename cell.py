@@ -35,7 +35,7 @@ class cell():
 
     def cell_draw_move(self, target, undo=False):
         if undo:
-            color = "gray"
+            color = "white"
         else:
             color = "red"
         self._win.draw_line(self.x_center, self.y_center, target.x_center, target.y_center, fill_color=color)

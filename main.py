@@ -11,7 +11,7 @@ def main():
     # cell1.draw()
     # cell2.draw()
     # cell1.cell_draw_move(cell2)
-    this_maze = maze(50, 50, 10, 15, 25, 25, win=win)
+    this_maze = maze(50, 50, 40, 40, 10, 10, win=win)
     print("created maze")
     this_maze._break_entrance_and_exit()
     # this_maze._break_wall(0, 4, "left")
